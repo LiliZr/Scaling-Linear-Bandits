@@ -49,22 +49,10 @@ python main.py
 python main.py --list
 ```
 
-For SSH + nohup workflow:
+For nohup workflow example:
 
 ```bash
-ssh server1
-cd SCLUB-RP
 nohup python main.py slow --experiment medium &      # logs to results/medium/nohup_medium_slow.log
-exit
-
-ssh server2
-cd SCLUB-RP
-nohup python main.py rp --experiment medium &        # logs to results/medium/nohup_medium_rp.log
-exit
-
-ssh server3
-cd SCLUB-RP
-nohup python main.py bandits --experiment medium &   # logs to results/medium/nohup_medium_bandits.log
 exit
 ```
 
@@ -100,30 +88,7 @@ Plots use:
 - **Staggered marker positions** so overlapping curves are visually distinguishable
 - **Log Y-axes** by default
 
-## Multi-server runs (your workflow)
 
-Your usual workflow: SSH to each server, launch `nohup python main.py <something> &`,
-disconnect. The new positional CLI makes this clean — no commenting/uncommenting code:
-
-```bash
-# server1: the slow group (CLUB is the bottleneck, runs alongside the simpler ones)
-ssh server1
-cd SCLUB-RP
-nohup python main.py slow --experiment medium > /dev/null 2>&1 &
-exit
-
-# server2: the RP variants
-ssh server2
-cd SCLUB-RP
-nohup python main.py rp --experiment medium > /dev/null 2>&1 &
-exit
-
-# server3: our Bandit variants
-ssh server3
-cd SCLUB-RP
-nohup python main.py bandits --experiment medium > /dev/null 2>&1 &
-exit
-```
 
 Each invocation writes its own log file at
 `results/medium/nohup_medium_<group>.log`, so even on a shared filesystem
